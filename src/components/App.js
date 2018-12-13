@@ -19,6 +19,13 @@ class App extends React.Component {
       searchkeyword: repo
     });
   };
+  toResetpage = value => {
+    if (value === "") {
+      this.setState({ pagenumber: 0, data: [] });
+    } else {
+      return;
+    }
+  };
   onPrevPageSearch = async keyword => {
     const response = await axios.get(
       `https://api.github.com/search/repositories?q=${keyword}+language:javascript&sort=stars&order=desc&per_page=20&page=${this
@@ -57,7 +64,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <SearchBar onclick={this.onReposearch} />
+        <SearchBar onclick={this.onReposearch} inputchange={this.toResetpage} />
         <DisplayRepos repositems={this.state.data} />
         <div>{this.pagination()}</div>
       </div>

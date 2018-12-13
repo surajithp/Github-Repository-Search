@@ -8,7 +8,7 @@ const DisplaySingleRepo = props => {
       <p>{props.full_name}</p>
       <p>Description: {props.description}</p>
       <a href={props.owner.html_url} rel="noopener noreferrer" target="_blank">
-        Git url
+        Git_url
       </a>
       <p>
         <a href={props.homepage} rel="noopener noreferrer" target="_blank">
