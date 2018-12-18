@@ -22,7 +22,7 @@ class SearchBar extends React.Component {
             placeholder="Search here"
             onChange={this.onInputSubmit}
           />
-          <button type="submit">Search</button>
+          <button disabled={this.props.disable} type="submit">Search</button>
         </form>
       </div>
     );
