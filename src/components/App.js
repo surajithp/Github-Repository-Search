@@ -24,6 +24,13 @@ class App extends React.Component {
       return alert("Enter something before submittimg");
     }
   };
+  toResetpage = value => {
+    if (value === "" || value !== this.state.searchkeyword) {
+      this.setState({ pagenumber: 0, data: [] });
+    } else {
+      return;
+    }
+  };
 
   onPrevPageSearch = async keyword => {
     const response = await axios.get(
@@ -39,7 +46,7 @@ class App extends React.Component {
   };
   toResetpage = value => {
     if (value === "" || value !== this.state.searchkeyword) {
-      this.setState({ pagenumber: 0, data: [],jsondata:[]});
+      this.setState({ pagenumber: 0, data: [], jsondata: [] });
     } else {
       return;
     }
@@ -81,6 +88,7 @@ class App extends React.Component {
       return <SearchBar disable={true} inputchange={this.toResetpage} />;
     }
   };
+
   onStoringJsondata = data => {
     this.setState(prevState => ({
       jsondata: prevState.jsondata.concat(data)
@@ -97,6 +105,7 @@ class App extends React.Component {
           click={this.onStoringJsondata}
           repositems={this.state.data}
         />
+
         <div>{this.pagination()}</div>
       </div>
     );
