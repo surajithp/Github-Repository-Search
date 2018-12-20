@@ -1,4 +1,5 @@
 import React from "react";
+import "./Pagination.css"
 
 const Pagination = props => {
   const nextPageclick = () => {
@@ -9,7 +10,7 @@ const Pagination = props => {
   };
 
   return (
-    <div style={{ textAlign: "center", marginBottom: "20px" }}>
+    <div className="footer">
       <button disabled={props.disabled} onClick={prevPageclick}>
         Prev
       </button>

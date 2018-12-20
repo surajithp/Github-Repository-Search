@@ -1,24 +1,55 @@
 import React from "react";
-import "./DisplayRepo.css";
+import axios from "axios";
 
-const DisplaySingleRepo = props => {
-  return (
-    <div className="box margin">
-      <p>{props.serialno}</p>
-      <p>{props.full_name}</p>
-      <p>Description: {props.description}</p>
-      <a href={props.owner.html_url} rel="noopener noreferrer" target="_blank">
-        Git url
-      </a>
-      <p>
-        <a href={props.homepage} rel="noopener noreferrer" target="_blank">
-          Repository Homepage
-        </a>
-      </p>
-      <p>Forks:{props.forks_count}</p>
-      <p>Stars:{props.stargazers_count}</p>
-    </div>
-  );
-};
+class DisplaySingleRepo extends React.Component {
+  onButtonclick = async () => {
+    const repocontent = await axios.get(
+      `https://api.github.com/repos/${this.props.full_name}/contents`
+    );
+    const repocontentdata = repocontent.data;
+    const jsondata = repocontentdata.filter(item => {
+      return item.name.match("package.json");
+    });
+    if (jsondata.length > 0) {
+      const response = await axios.get(
+        `https://raw.githubusercontent.com/${this.props.full_name}/${
+          this.props.default_branch
+        }/package.json`
+      );
+      let dataofjson = response.data.devDependencies;
+      if (typeof dataofjson === "object") {
+        let dataarray = Object.keys(dataofjson);
+        this.props.click(dataarray);
+      } else {
+        return alert("dependencies not exist in json file");
+      }
+    } else {
+      return alert("package json file not exist in repo");
+    }
+  };
+
+  render() {
+    return (
+      <div className="box margin">
+        <p>{this.props.serialno}</p>
+        <p>{this.props.full_name}</p>
+        <p>
+          <a
+            href={this.props.svn_url}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Repo Url
+          </a>
+        </p>
+        <div style={{ margin: "auto" }}>
+          <button onClick={this.onButtonclick}>Import</button>
+        </div>
+        <p>Forks:{this.props.forks_count}</p>
+        <p>Stars:{this.props.stargazers_count}</p>
+      </div>
+    );
+  }
+}
 
 export default DisplaySingleRepo;

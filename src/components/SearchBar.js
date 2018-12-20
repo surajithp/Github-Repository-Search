@@ -1,8 +1,12 @@
 import React from "react";
-import "./SearchBar.css"
 
 class SearchBar extends React.Component {
   state = { searchkeyword: "" };
+  onInputSubmit = event => {
+    const value = event.target.value;
+    this.props.inputchange(value);
+    this.setState({ searchkeyword: value });
+  };
 
   OnFormsubmit = event => {
     event.preventDefault();
@@ -15,11 +19,11 @@ class SearchBar extends React.Component {
           <input
             type="text"
             placeholder="Search here"
-            onChange={event =>
-              this.setState({ searchkeyword: event.target.value })
-            }
+            onChange={this.onInputSubmit}
           />
-          <button type="submit">Search</button>
+          <button disabled={this.props.disable} type="submit">
+            Search
+          </button>
         </form>
       </div>
     );
